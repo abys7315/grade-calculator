@@ -49,6 +49,7 @@ function Result() {
                         <td>{r.faculty}</td>
                         <td>{r.total}</td>
                         <td><span className="retro-badge">{r.grade}</span></td>
+                        <td>{r.userCount}</td>
                       </tr>
                     ))}
                   </tbody>

@@ -186,7 +186,8 @@ router.get("/user-results", auth, async (req, res) => {
       faculty: groups[key].faculty
     });
     if (groupRecords.length < 20) {
-      pendingGroups.push(groups[key]);
+      const userRecord = groupRecords.find(r => r.studentEmail === userEmail);
+      pendingGroups.push({ ...groups[key], userCount: groupRecords.length, total: userRecord ? userRecord.finalTotal : null });
     } else {
       records.push(...groupRecords);
     }
@@ -248,7 +249,8 @@ router.get("/user-results", auth, async (req, res) => {
           faculty: r.faculty,
           total: r.finalTotal,
           grade: grade(r.finalTotal, m, s, threshold),
-          gradeRanges
+          gradeRanges,
+          userCount: group.length
         });
       }
     });
@@ -263,7 +265,9 @@ router.get("/user-results", auth, async (req, res) => {
       courseName,
       slot: pending.slot,
       faculty: pending.faculty,
-      pending: true
+      pending: true,
+      userCount: pending.userCount,
+      total: pending.total
     });
   }
 

@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://grade-calculator-pjm2.onrender.com/api" || "http://localhost:5000/api"  
+  baseURL: "http://localhost:5000/api"  
 });
+// "https://grade-calculator-pjm2.onrender.com/api" || "
 
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
