@@ -23,11 +23,11 @@ app.use("/api/marks", require("./routes/marks"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 
 // Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, "../grade-calculator-frontend/dist")));
+app.use(express.static(path.join(process.cwd(), "grade-calculator-frontend", "dist")));
 
 // Catch all handler: send back React's index.html file for client-side routing
 app.get(/^\/(?!api).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "../grade-calculator-frontend/dist/index.html"));
+  res.sendFile(path.join(process.cwd(), "grade-calculator-frontend", "dist", "index.html"));
 });
 
 app.listen(process.env.PORT, () =>
