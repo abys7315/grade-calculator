@@ -185,7 +185,7 @@ router.get("/user-results", auth, async (req, res) => {
       slot: groups[key].slot,
       faculty: groups[key].faculty
     });
-    if (groupRecords.length < 2) {
+    if (groupRecords.length < 20) {
       pendingGroups.push(groups[key]);
     } else {
       records.push(...groupRecords);
