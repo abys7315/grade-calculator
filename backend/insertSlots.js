@@ -236,7 +236,8 @@ const insertSlots = async () => {
       slotName: "D1/TD1",
       faculties: [
         "Shalini Ramanathan",
-        "Manomita Chakraborty"
+        "Manomita Chakraborty",
+        "Udit Narayana Kar"
       ]
     },
     {
@@ -250,7 +251,8 @@ const insertSlots = async () => {
       slotName: "D2/TD2",
       faculties: [
         "Paidipogu Sowjanya",
-        "SHAIK RESHMA"
+        "SHAIK RESHMA",
+        "Udit Narayana Kar"
       ]
     },
     {
