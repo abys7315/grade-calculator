@@ -1,0 +1,95 @@
+import { useState, useEffect } from "react";
+import axios from "../api/axios";
+
+function UserResult() {
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    fetchUserResults();
+  }, []);
+
+  const fetchUserResults = async () => {
+    try {
+      const res = await axios.get("/marks/user-results");
+      setResults(res.data);
+    } catch (err) {
+      alert("Error fetching results");
+    }
+  };
+
+  const groupedResults = results.reduce((acc, result) => {
+    const key = `${result.courseCode}-${result.slot}`;
+    if (!acc[key]) {
+      acc[key] = {
+        courseCode: result.courseCode,
+        courseName: result.courseName,
+        slot: result.slot,
+        faculty: result.faculty,
+        gradeRanges: result.gradeRanges,
+        entries: [],
+      };
+    }
+    acc[key].entries.push(result);
+    return acc;
+  }, {});
+
+  return (
+    <div className="tangy-wrapper">
+      <div className="tangy-container">
+        <h2 className="section-title">YOUR REPORT CARD</h2>
+        {results.message ? (
+          <p>{results.message}</p>
+        ) : (
+          <div className="results-stack">
+            {Object.keys(groupedResults).map((key) => {
+              const group = groupedResults[key];
+              return (
+                <div key={key} className="retro-card result-panel">
+                  <div className="card-header-strip color-dark">
+                    {group.courseName} <span className="slot-pill">{group.slot}</span>
+                  </div>
+                  <div className="card-body">
+                    <p className="faculty-label">👨‍🏫 {group.faculty}</p>
+                    
+                    <table className="retro-table mini-table">
+                      <thead>
+                        <tr>
+                          <th>Total Score</th>
+                          <th>Grade Received</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {group.entries.map((r, index) => (
+                          <tr key={index}>
+                            <td>{r.total.toFixed(2)}</td>
+                            <td><span className="retro-badge lg">{r.grade}</span></td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+
+                    {group.gradeRanges && Object.keys(group.gradeRanges).length > 0 && (
+                      <div className="grade-key-section">
+                        <h4>Grading Key</h4>
+                        <div className="key-grid">
+                          {Object.entries(group.gradeRanges).map(([grade, range]) => (
+                            <div key={grade} className="key-item">
+                              <span className="key-grade">{grade}</span>
+                              <span className="key-range">{range}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default UserResult;
