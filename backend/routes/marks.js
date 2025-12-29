@@ -178,16 +178,18 @@ router.get("/user-results", auth, async (req, res) => {
   });
 
   const records = [];
+  const pendingGroups = [];
   for (const key in groups) {
     const groupRecords = await Marks.find({
       courseCode: groups[key].courseCode,
       slot: groups[key].slot,
       faculty: groups[key].faculty
     });
-    if (groupRecords.length < 1) {
-      return res.json({ message: "Your result is pending because current strength is not sufficient to 20" });
+    if (groupRecords.length < 2) {
+      pendingGroups.push(groups[key]);
+    } else {
+      records.push(...groupRecords);
     }
-    records.push(...groupRecords);
   }
 
   // Group by course, slot, and faculty for grading
@@ -249,6 +251,19 @@ router.get("/user-results", auth, async (req, res) => {
           gradeRanges
         });
       }
+    });
+  }
+
+  // Add pending groups
+  for (const pending of pendingGroups) {
+    const courseData = await CourseData.findOne({ courseCode: pending.courseCode });
+    const courseName = courseData ? courseData.courseName : pending.courseCode;
+    userResults.push({
+      courseCode: pending.courseCode,
+      courseName,
+      slot: pending.slot,
+      faculty: pending.faculty,
+      pending: true
     });
   }
 

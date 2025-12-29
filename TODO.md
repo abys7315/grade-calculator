@@ -1,21 +1,11 @@
-# TODO: Create OTP API for PythonAnywhere Deployment
+# TODO: Implement "Result Pending" Feature
 
-## Python OTP API (New Project)
-- [x] Create otp-api directory
-- [x] Create Flask app.py with OTP endpoints
-- [x] Create requirements.txt
-- [x] Create .env template
+## Backend Changes
+- [x] Modify `/user-results` endpoint in `backend/routes/marks.js` to process all groups and add a "pending" flag for groups with fewer than 20 entries.
 
-## Node.js Backend Modifications
-- [x] Modify backend/routes/otp.js to call Python API instead of nodemailer
-- [x] Remove nodemailer from backend/package.json
-- [ ] Update backend/routes/authRoutes.js (if needed)
-- [ ] Add PYTHON_OTP_API_URL to backend/.env
-
-## Deployment
-- [ ] Deploy Python API to PythonAnywhere
-- [ ] Update PYTHON_OTP_API_URL in backend/.env with actual URL
-- [ ] Test integration
+## Frontend Changes
+- [x] Update `grade-calculator-frontend/src/pages/UserResult.jsx` to handle the "pending" flag and display "result is pending" instead of grade and marks for pending courses.
 
 ## Testing
-- [ ] Test OTP flow with Python API
+- [x] Test the changes to ensure pending courses show "result is pending" and other courses show grades and marks.
+- [x] Verify that the API returns the correct data structure.

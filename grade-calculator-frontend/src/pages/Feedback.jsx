@@ -1,12 +1,22 @@
 import { useState } from "react";
+import axios from "../api/axios";
 
 function Feedback() {
   const [feedback, setFeedback] = useState("");
+  const [message, setMessage] = useState("");
 
-  const submitFeedback = () => {
-    // For now, just alert, later can send to backend
-    alert("Feedback submitted: " + feedback);
-    setFeedback("");
+  const submitFeedback = async () => {
+    if (!feedback.trim()) {
+      setMessage("Please enter feedback");
+      return;
+    }
+    try {
+      const response = await axios.post("/auth/feedback", { feedback });
+      setMessage(response.data.message);
+      setFeedback("");
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Error submitting feedback");
+    }
   };
 
   return (
@@ -24,6 +34,7 @@ function Feedback() {
           <button className="btn-retro-primary full-width" onClick={submitFeedback}>
             Submit Feedback
           </button>
+          {message && <p className="retro-text" style={{ color: message.includes("Error") ? "red" : "green" }}>{message}</p>}
         </div>
       </div>
     </div>
