@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
+import NoData from "./NoData";
 
 function Result() {
   const [results, setResults] = useState([]);

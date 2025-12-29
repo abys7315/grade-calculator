@@ -89,7 +89,7 @@ router.post("/submit", auth, async (req, res) => {
 router.get("/result/:course/:slot", auth, async (req, res) => {
   const records = await Marks.find({ courseCode: req.params.course, slot: req.params.slot });
 
-  if (records.length < 1)
+  if (records.length < 20)
     return res.json({ message: "Grades not available yet" });
 
   const totals = records.map(r => r.finalTotal);
@@ -121,7 +121,7 @@ router.get("/result/:course/:slot", auth, async (req, res) => {
 router.get("/all-results", async (req, res) => {
   const records = await Marks.find({});
 
-  if (records.length < 1)
+  if (records.length < 20)
     return res.json({ message: "No marks available" });
 
   // Group by course, slot, and faculty for grading
@@ -184,6 +184,9 @@ router.get("/user-results", auth, async (req, res) => {
       slot: groups[key].slot,
       faculty: groups[key].faculty
     });
+    if (groupRecords.length < 20) {
+      return res.json({ message: "Your result is pending because current strength is not sufficient to 20" });
+    }
     records.push(...groupRecords);
   }
 

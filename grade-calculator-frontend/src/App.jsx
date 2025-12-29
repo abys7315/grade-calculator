@@ -7,6 +7,7 @@ import Result from "./pages/Result.jsx";
 import UserResult from "./pages/UserResult.jsx";
 import Feedback from "./pages/Feedback.jsx";
 import Admin from "./pages/Admin.jsx";
+import NoData from "./pages/NoData.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<NoData />} />
       </Routes>
     </BrowserRouter>
   );
