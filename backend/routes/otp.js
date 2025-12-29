@@ -1,45 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const nodemailer = require("nodemailer");
+const axios = require("axios");
 const User = require("../models/User"); // Make sure you have a User model
 const jwt = require("jsonwebtoken");
 
 // Send OTP
 router.post("/send-otp", async (req, res) => {
   try {
-    console.log("Send OTP body:", req.body);  // <--- add this
+    console.log("Send OTP body:", req.body);
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
-    // Generate 8-digit OTP
-    const otp = Math.floor(10000000 + Math.random() * 90000000).toString();
+    // Call Python OTP API to send email
+    const pythonApiUrl = process.env.PYTHON_OTP_API_URL || "https://abys2875.pythonanywhere.com";
+    const response = await axios.post(`${pythonApiUrl}/send-otp`, { email });
 
-    // Save OTP to database (upsert if not exists)
-    await User.findOneAndUpdate(
-      { email },
-      { otp, isVerified: false },
-      { upsert: true }
-    );
+    if (response.data.success) {
+      // Save user as not verified in our database
+      await User.findOneAndUpdate(
+        { email },
+        { isVerified: false },
+        { upsert: true }
+      );
 
-    // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-
-    // Send email
-    await transporter.sendMail({
-      from: process.env.EMAIL,
-      to: email,
-      subject: "Your OTP for Grade Calculator",
-      text: `Your OTP is ${otp}`
-    });
-
-    console.log(`OTP sent to ${email}: ${otp}`);
-    res.json({ message: "OTP sent" });
+      console.log(`OTP request sent to Python API for ${email}`);
+      res.json({ message: "OTP sent" });
+    } else {
+      throw new Error("Failed to send OTP via Python API");
+    }
   } catch (err) {
     console.error("Send OTP error:", err);
     res.status(500).json({ message: "Internal Server Error", error: err.message });
@@ -52,15 +40,24 @@ router.post("/verify-otp", async (req, res) => {
     const { email, otp } = req.body;
     if (!email || !otp) return res.status(400).json({ message: "Email and OTP are required" });
 
-    const user = await User.findOne({ email, otp });
-    if (!user) return res.status(400).json({ message: "Invalid OTP" });
+    // Call Python OTP API to verify OTP
+    const pythonApiUrl = process.env.PYTHON_OTP_API_URL || "https://abys2875.pythonanywhere.com";
+    const response = await axios.post(`${pythonApiUrl}/verify-otp`, { email, otp });
 
-    user.isVerified = true;
-    await user.save();
+    if (response.data.success) {
+      // Update user as verified in our database
+      const user = await User.findOneAndUpdate(
+        { email },
+        { isVerified: true },
+        { new: true }
+      );
 
-    // Create JWT token
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    res.json({ token, message: "OTP verified successfully" });
+      // Create JWT token
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+      res.json({ token, message: "OTP verified successfully" });
+    } else {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
   } catch (err) {
     console.error("Verify OTP error:", err);
     res.status(500).json({ message: "Internal Server Error", error: err.message });

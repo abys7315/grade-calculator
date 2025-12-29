@@ -184,7 +184,7 @@ router.get("/user-results", auth, async (req, res) => {
       slot: groups[key].slot,
       faculty: groups[key].faculty
     });
-    if (groupRecords.length < 20) {
+    if (groupRecords.length < 1) {
       return res.json({ message: "Your result is pending because current strength is not sufficient to 20" });
     }
     records.push(...groupRecords);
