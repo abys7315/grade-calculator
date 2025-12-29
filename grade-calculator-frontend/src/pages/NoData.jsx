@@ -7,6 +7,7 @@ function NoData({ message }) {
           <h2 style={{ marginTop: 0 }}>Oops!</h2>
           <p className="retro-subtitle">{message || "You have not registered yet for anything."}</p>
           <p>Please contact admin to get started.</p>
+          <h5>If you registered anything ,wait for a min</h5>
         </div>
       </div>
     </div>

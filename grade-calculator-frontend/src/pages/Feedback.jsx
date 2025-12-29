@@ -24,7 +24,7 @@ function Feedback() {
       <div className="retro-card small-card">
         <div className="card-header-strip color-alt">FEEDBACK</div>
         <div className="card-body">
-          <p className="retro-text">Tell us what you think!</p>
+          <p className="retro-text">Any faculty or slot missing ,write it here with full details or any changes needed </p>
           <textarea
             className="retro-textarea"
             placeholder="Type your feedback here..."
