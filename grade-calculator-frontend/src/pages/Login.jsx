@@ -30,7 +30,19 @@ function Login() {
   };
 
   return (
-    <div className="tangy-wrapper center-flex">
+    <div className="tangy-wrapper" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="retro-card small-card" style={{ maxHeight: '150px', overflow: 'auto' }}>
+        <div className="card-header-strip color-alt">IMPORTANT</div>
+        <div className="card-body" style={{ padding: '1rem' }}>
+          <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
+            <li>• AWS has beed added  and some other faculties of other courses also </li>
+            <li>• After sending the otp,just wait for sometime ,don't send again and again</li>
+            <li>• Facing internal server error so try again after 1-2 min </li>
+            <li>• If you want to add anything write in the feedback</li>
+            <li>• If the number of students of a particular slot and faculty is more then it will predict more accurate grades.</li>
+          </ul>
+        </div>
+      </div>
       <div className="retro-card small-card">
         <div className="card-header-strip">LOGIN</div>
         <div className="card-body">
