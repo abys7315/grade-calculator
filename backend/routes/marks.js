@@ -2,7 +2,7 @@ const router = require("express").Router();
 const CourseData = require("../models/CourseData");
 const Marks = require("../models/Marks");
 const { mean, std, grade } = require("../utils/gradeEngine");
-const { auth }  = require("../middleware/auth");
+const { auth, adminAuth }  = require("../middleware/auth");
 
 router.post("/submit", auth, async (req, res) => {
   const data = req.body;
@@ -118,11 +118,19 @@ router.get("/result/:course/:slot", auth, async (req, res) => {
   res.json(results);
 });
 
-router.get("/all-results", async (req, res) => {
+router.get("/all-results", adminAuth, async (req, res) => {
   const records = await Marks.find({});
 
   if (records.length < 20)
     return res.json({ message: "No marks available" });
+
+  // Get unique course codes and fetch course names
+  const courseCodes = [...new Set(records.map(r => r.courseCode))];
+  const courseData = await CourseData.find({ courseCode: { $in: courseCodes } });
+  const courseMap = {};
+  courseData.forEach(c => {
+    courseMap[c.courseCode] = c.courseName;
+  });
 
   // Group by course, slot, and faculty for grading
   const grouped = {};
@@ -152,6 +160,7 @@ router.get("/all-results", async (req, res) => {
       allResults.push({
         email: r.studentEmail,
         courseCode: r.courseCode,
+        courseName: courseMap[r.courseCode] || r.courseCode,
         slot: r.slot,
         faculty: r.faculty,
         total: r.finalTotal,
@@ -185,7 +194,7 @@ router.get("/user-results", auth, async (req, res) => {
       slot: groups[key].slot,
       faculty: groups[key].faculty
     });
-    if (groupRecords.length < 20) {
+    if (groupRecords.length < 6) {
       const userRecord = groupRecords.find(r => r.studentEmail === userEmail);
       pendingGroups.push({ ...groups[key], userCount: groupRecords.length, total: userRecord ? userRecord.finalTotal : null });
     } else {

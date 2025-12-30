@@ -8,7 +8,7 @@ import UserResult from "./pages/UserResult.jsx";
 import Feedback from "./pages/Feedback.jsx";
 import Admin from "./pages/Admin.jsx";
 import NoData from "./pages/NoData.jsx";
-import PrivateRoute from "./components/PrivateRoute.jsx";
+import PrivateRoute, { AdminRoute } from "./components/PrivateRoute.jsx";
 
 function App() {
   return (
@@ -38,9 +38,9 @@ function App() {
         <Route
           path="/result"
           element={
-            <PrivateRoute>
+            <AdminRoute>
               <Result />
-            </PrivateRoute>
+            </AdminRoute>
           }
         />
         <Route
@@ -62,9 +62,9 @@ function App() {
         <Route
           path="/admin"
           element={
-            <PrivateRoute role="admin">
+            <AdminRoute>
               <Admin />
-            </PrivateRoute>
+            </AdminRoute>
           }
         />
         <Route path="*" element={<NoData />} />

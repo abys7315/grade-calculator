@@ -65,7 +65,7 @@ function UserResult() {
                       {group.entries.map((r, index) => (
                         <tr key={index}>
                           <td>{r.pending ? (r.total ? r.total.toFixed(2) : "Result is pending") : r.total.toFixed(2)}</td>
-                          <td>{r.pending ? "Result is pending(min 20 students needed)" : <span className="retro-badge lg">{r.grade}</span>}</td>
+                          <td>{r.pending ? "Result is pending(min 6 students needed)" : <span className="retro-badge lg">{r.grade}</span>}</td>
                           <td>{r.userCount}</td>
                         </tr>
                       ))}

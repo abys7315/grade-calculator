@@ -16,8 +16,8 @@ const auth = (req, res, next) => {
 const adminAuth = (req, res, next) => {
   auth(req, res, (err) => {
     if (err || !req.user) return;
-    if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Access denied. Admin role required." });
+    if (req.user.email !== "abhay.23bce7190@vitapstudent.ac.in") {
+      return res.status(403).json({ message: "Access denied. Admin email required." });
     }
     next();
   });

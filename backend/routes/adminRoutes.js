@@ -12,7 +12,10 @@ router.post("/course", async (req, res) => {
 
 router.post("/slot", async (req, res) => {
   const { courseCode, slotName, faculties } = req.body;
-  await Slot.create({ courseCode, slotName, faculties });
+  const course = await Course.findOne({ courseCode });
+  if (!course) return res.status(404).json({ message: "Course not found" });
+  course.slots.push({ slotName, faculties });
+  await course.save();
   res.json({ message: "Slot added" });
 });
 

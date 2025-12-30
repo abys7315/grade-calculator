@@ -19,6 +19,7 @@ function MarksFlow() {
     projectMarks: "",
   });
   const navigate = useNavigate();
+  const isAdmin = localStorage.getItem("email") === "abhay.23bce7190@vitapstudent.ac.in";
 
   useEffect(() => {
     fetchCourses();
@@ -146,7 +147,13 @@ function MarksFlow() {
     <div className="tangy-wrapper">
       <div className="tangy-container">
         <h2 className="section-title">MARKS ENTRY</h2>
-        
+        {isAdmin && (
+          <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+            <button className="btn-retro-secondary" onClick={() => navigate("/admin")}>
+              Admin Panel
+            </button>
+          </div>
+        )}
         <div className="retro-card">
           <div className="card-body">
             {/* Selections */}

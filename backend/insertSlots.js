@@ -46,7 +46,8 @@ const insertSlots = async () => {
         "Madugula Kiran Kumar",
         "Afzal Hussain Shahid",
         "Shalini Subramani",
-        "GOKAPAY DILIP KUMAR"
+        "GOKAPAY DILIP KUMAR",
+        "Rajashekar ramaswamy"
       ]
     },
     {
@@ -67,7 +68,8 @@ const insertSlots = async () => {
         "TAALAM NAGA RAJU",
         "Srinivasarao.Pokuri",
         "Annapureddy V N Reddy",
-        "Sunkara Kalyani"
+        "Sunkara Kalyani",
+        "Rajasekar Ramaswamy"
       ]
     },
     {
@@ -88,7 +90,8 @@ const insertSlots = async () => {
         "K Aravind",
         "Sandipan Maiti",
         "P. Kuppusamy",
-        "GOKAPAY DILIP KUMAR"
+        "GOKAPAY DILIP KUMAR",
+        "Ganesh Reddy Sir"
       ]
     }
   ];
@@ -176,7 +179,8 @@ const insertSlots = async () => {
         "Karrothu Aravind",
         "SHAIK ASMEEN",
         "D. Paul Joseph",
-        "Kodanada Raman"
+        "Kodanada Raman",
+        "Ramkumar D"
       ]
     },
     {
@@ -184,7 +188,8 @@ const insertSlots = async () => {
       faculties: [
         "Mohinder Singh. B",
         "PALADUGU TANUSHA",
-        "SHAIK ASMEEN"
+        "SHAIK ASMEEN",
+        "Prof.Nandha Kumar"
       ]
     },
     {
@@ -229,6 +234,7 @@ const insertSlots = async () => {
         "Helen Sharmila A",
         "Bommareddy Lokesh",
         "shaik reshma"
+        
       ]
     },
     {
@@ -243,7 +249,8 @@ const insertSlots = async () => {
         "Gokul Yenduri",
         "Mukkoti Maruthi Venkata Chalapathi",
         "SANKURU RAVI PRAKASH",
-        "Helen Sharmila A"
+        "Helen Sharmila A",
+        "Ramkumar D"
       ]
     },
     {
@@ -277,7 +284,8 @@ const insertSlots = async () => {
       faculties: [
         "Paidipogu Sowjanya",
         "SHAIK RESHMA",
-        "Udit Narayana Kar"
+        "Udit Narayana Kar",
+        "Jonnadula Harikiran"
       ]
     },
     {
@@ -293,7 +301,8 @@ const insertSlots = async () => {
         "Bileesh P Babu",
         "Pechetti Mounika",
         "Paidipogu Sowjanya",
-        "DHANIKONDA RATNA BHAVANI"
+        "DHANIKONDA RATNA BHAVANI",
+        "Hemant Kumar Reddy"
       ]
     },
     {
@@ -330,7 +339,8 @@ const insertSlots = async () => {
         "MAHABOOBSUBHANI SHAIK CH",
         "Varunkumar Anantharaman",
         "Aravapalli Rama Satish",
-        "Naga jagadeesh bommagani"
+        "Naga jagadeesh bommagani",
+        "Eswaraiah RayAchoti "
       ]
     },
     {
@@ -479,6 +489,11 @@ const insertSlots = async () => {
   // FRL1004 slots data
   const frl1004Slots = [
     {
+      slotName: "A2",
+      faculties: [
+        "Anindita Roy"
+      ]
+    },{
       slotName: "F2",
       faculties: [
         "Anindita Roy"
@@ -550,6 +565,150 @@ const insertSlots = async () => {
       faculties: [
         "Vodelli Sri Lakshmi",
         "Mohan Allam"
+      ]
+    }
+  ];
+
+  // CSE3007 slots data
+  const cse0000Slots = [
+    {
+      slotName: "E2",
+      faculties: [
+        "Tauseef Khan"
+      ]
+    }
+  ];
+
+  // MAT2005 slots data
+  const mat2005Slots = [
+    {
+      slotName: "A1",
+      faculties: [
+        "soumen kundu"
+      ]
+    }
+  ];
+
+  // CSE3008 slots data (Data Mining and Warehousing)
+  const cse3008Slots = [
+    {
+      slotName: "D2",
+      faculties: [
+        "samuka mohanty"
+      ]
+    }
+  ];
+
+  // CSE4012 slots data (Foundations of Blockchain Technology)
+  const cse4012Slots = [
+    {
+      slotName: "F1",
+      faculties: [
+        "Prabina kumar mishra"
+      ]
+    }
+  ];
+
+  // CSE4037 slots data
+  const cse4037Slots = [
+    {
+      slotName: "B1",
+      faculties: [
+        "Yelepi Usha Rani"
+      ]
+    },
+    {
+      slotName: "B2",
+      faculties: [
+        "Yelepi Usha Rani"
+      ]
+    }
+  ];
+
+  // CSE2025 slots data
+  const cse2025Slots = [
+    {
+      slotName: "A1",
+      faculties: [
+        "A1 all faculty"
+      ]
+    },
+    {
+      slotName: "A2",
+      faculties: [
+        "A2 all faculty"
+      ]
+    },
+    {
+      slotName: "B1",
+      faculties: [
+        "B1 all faculty"
+      ]
+    },
+    {
+      slotName: "B2",
+      faculties: [
+        "B2 all faculty"
+      ]
+    },
+    {
+      slotName: "C1",
+      faculties: [
+        "C1 all faculty"
+      ]
+    },
+    {
+      slotName: "C2",
+      faculties: [
+        "C2 all faculty"
+      ]
+    },
+    {
+      slotName: "D1",
+      faculties: [
+        "D1 all faculty"
+      ]
+    },
+    {
+      slotName: "D2",
+      faculties: [
+        "D2 all faculty"
+      ]
+    },
+    {
+      slotName: "E1",
+      faculties: [
+        "E1 all faculty"
+      ]
+    },
+    {
+      slotName: "E2",
+      faculties: [
+        "E2 all faculty"
+      ]
+    },
+    {
+      slotName: "F1",
+      faculties: [
+        "F1 all faculty"
+      ]
+    },
+    {
+      slotName: "F2",
+      faculties: [
+        "F2 all faculty"
+      ]
+    },
+    {
+      slotName: "G1",
+      faculties: [
+        "G1 all faculty"
+      ]
+    },
+    {
+      slotName: "G2",
+      faculties: [
+        "G2 all faculty"
       ]
     }
   ];
@@ -728,12 +887,57 @@ const insertSlots = async () => {
         courseCode: "CSE3006",
         courseName: "Data Visualization",
         hasLab: false,
-        hasProject: false
+        hasProject: true
       });
     }
     mergeSlots(cse3006.slots, cse3006Slots);
     await cse3006.save();
     console.log("Slots inserted/updated successfully for CSE3006");
+
+    // Insert CSE3007
+    let cse0000 = await CourseData.findOne({ courseCode: "CSE0000" });
+    if (!cse0000) {
+      console.log("Course CSE0000 not found, creating it");
+      cse0000 = new CourseData({
+        courseCode: "CSE0000",
+        courseName: "Digital Image and Processing",
+        hasLab: true,
+        hasProject: false
+      });
+    }
+    mergeSlots(cse0000.slots, cse0000Slots);
+    await cse0000.save();
+    console.log("Slots inserted/updated successfully for CSE0000");
+
+    // Insert CSE4037
+    let cse4037 = await CourseData.findOne({ courseCode: "CSE4037" });
+    if (!cse4037) {
+      console.log("Course CSE4037 not found, creating it");
+      cse4037 = new CourseData({
+        courseCode: "CSE4037",
+        courseName: "Reinforcement Learning",
+        hasLab: false,
+        hasProject: true
+      });
+    }
+    mergeSlots(cse4037.slots, cse4037Slots);
+    await cse4037.save();
+    console.log("Slots inserted/updated successfully for CSE4037");
+
+    // Insert CSE2025
+    let cse2025 = await CourseData.findOne({ courseCode: "CSE2025" });
+    if (!cse2025) {
+      console.log("Course CSE2025 not found, creating it");
+      cse2025 = new CourseData({
+        courseCode: "CSE2025",
+        courseName: "AWS Solution Architecture",
+        hasLab: false,
+        hasProject: false
+      });
+    }
+    mergeSlots(cse2025.slots, cse2025Slots);
+    await cse2025.save();
+    console.log("Slots inserted/updated successfully for CSE2025");
 
   } catch (error) {
     console.error("Error inserting slots:", error);

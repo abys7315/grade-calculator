@@ -28,4 +28,11 @@ const PrivateRoute = ({ children, role }) => {
   return children;
 };
 
+export const AdminRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  const email = localStorage.getItem("email");
+  const adminEmail = "abhay.23bce7190@vitapstudent.ac.in";
+  return token && email === adminEmail ? children : <Navigate to="/login" />;
+};
+
 export default PrivateRoute;
