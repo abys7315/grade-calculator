@@ -457,31 +457,36 @@ const insertSlots = async () => {
     {
       slotName: "C1",
       faculties: [
-        "Chandan Vishwas"
+        "Chandan Vishwas",
+        "Dheeraj Kumar"
       ]
     },
     {
       slotName: "C2",
       faculties: [
-        "Chandan Vishwas"
+        "Chandan Vishwas",
+        "Dheeraj Kumar"
       ]
     },
     {
       slotName: "F1",
       faculties: [
-        "Chandan Vishwas"
+        "Chandan Vishwas",
+        "Dheeraj Kumar"
       ]
     },
     {
       slotName: "F2",
       faculties: [
-        "Chandan Vishwas"
+        "Chandan Vishwas",
+        "Dheeraj Kumar"
       ]
     },
     {
       slotName: "G1",
       faculties: [
-        "Chandan Vishwas"
+        "Chandan Vishwas",
+        "Dheeraj Kumar"
       ]
     }
   ];
