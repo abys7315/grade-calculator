@@ -145,7 +145,8 @@ const insertSlots = async () => {
         "SHAIK SHABINA",
         "Balusa Bhanu Chander",
         "Karrothu Aravind",
-        "Siddique Ibrahim Peer Mohamed"
+        "Siddique Ibrahim Peer Mohamed",
+        "Rajesh Duvurru"
       ]
     },
     {
@@ -250,7 +251,8 @@ const insertSlots = async () => {
         "Mukkoti Maruthi Venkata Chalapathi",
         "SANKURU RAVI PRAKASH",
         "Helen Sharmila A",
-        "Ramkumar D"
+        "Ramkumar D",
+        "Bomma Reddy"
       ]
     },
     {
@@ -291,7 +293,8 @@ const insertSlots = async () => {
     {
       slotName: "D2/TDD2",
       faculties: [
-        "GANDLA SOWMYA"
+        "GANDLA SOWMYA",
+        "Kailash Chandra Mishra"
       ]
     },
     {
@@ -494,6 +497,11 @@ const insertSlots = async () => {
   // FRL1004 slots data
   const frl1004Slots = [
     {
+      slotName: "A1",
+      faculties: [
+        "Anindita Roy"
+      ]
+    },{
       slotName: "A2",
       faculties: [
         "Anindita Roy"
@@ -714,6 +722,26 @@ const insertSlots = async () => {
       slotName: "G2",
       faculties: [
         "G2 all faculty"
+      ]
+    }
+  ];
+
+  // CSE1006 slots data
+  const cse1006Slots = [
+    {
+      slotName: "G2",
+      faculties: [
+        "Deepsikha Mishra"
+      ]
+    }
+  ];
+
+  // ENG000 slots data
+  const eng000Slots = [
+    {
+      slotName: "F2",
+      faculties: [
+        "Sudesh Manger"
       ]
     }
   ];
@@ -943,6 +971,36 @@ const insertSlots = async () => {
     mergeSlots(cse2025.slots, cse2025Slots);
     await cse2025.save();
     console.log("Slots inserted/updated successfully for CSE2025");
+
+    // Insert CSE1006
+    let cse1006 = await CourseData.findOne({ courseCode: "CSE1006" });
+    if (!cse1006) {
+      console.log("Course CSE1006 not found, creating it");
+      cse1006 = new CourseData({
+        courseCode: "CSE1006",
+        courseName: "Foundation of Data Analytics",
+        hasLab: true,
+        hasProject: false
+      });
+    }
+    mergeSlots(cse1006.slots, cse1006Slots);
+    await cse1006.save();
+    console.log("Slots inserted/updated successfully for CSE1006");
+
+    // Insert ENG000
+    let eng000 = await CourseData.findOne({ courseCode: "ENG000" });
+    if (!eng000) {
+      console.log("Course ENG000 not found, creating it");
+      eng000 = new CourseData({
+        courseCode: "ENG000",
+        courseName: "Shakespearean Dramas",
+        hasLab: false,
+        hasProject: false
+      });
+    }
+    mergeSlots(eng000.slots, eng000Slots);
+    await eng000.save();
+    console.log("Slots inserted/updated successfully for ENG000");
 
   } catch (error) {
     console.error("Error inserting slots:", error);
