@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api"
+  baseURL: import.meta.env.PROD 
+    ? "https://grade-calculator-pjm2.onrender.com/api" 
+    : "http://localhost:5000/api"
 });
 // 
 instance.interceptors.request.use((config) => {
