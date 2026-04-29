@@ -13,10 +13,18 @@ app = Flask(__name__)
 # In-memory storage for OTPs (use Redis in production)
 otp_storage = {}
 
-@app.route('/send-otp', methods=['POST'])
+@app.route('/api/auth/send-otp', methods=['POST', 'OPTIONS'])
 def send_otp():
+    if request.method == 'OPTIONS':
+        response = jsonify({})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response.status_code = 200
+        return response
+
     try:
-        data = request.get_json()
+        data = request.get_json(force=True) or {}
         email = data.get('email')
 
         if not email:
@@ -58,10 +66,18 @@ def send_otp():
         print(f"Error sending OTP: {str(e)}")
         return jsonify({'success': False, 'message': 'Failed to send OTP'}), 500
 
-@app.route('/verify-otp', methods=['POST'])
+@app.route('/api/auth/verify-otp', methods=['POST', 'OPTIONS'])
 def verify_otp():
+    if request.method == 'OPTIONS':
+        response = jsonify({})
+        response.headers['Access-Control-Allow-Origin'] = '*'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+        response.status_code = 200
+        return response
+
     try:
-        data = request.get_json()
+        data = request.get_json(force=True) or {}
         email = data.get('email')
         otp = data.get('otp')
 
@@ -80,6 +96,13 @@ def verify_otp():
     except Exception as e:
         print(f"Error verifying OTP: {str(e)}")
         return jsonify({'success': False, 'message': 'Failed to verify OTP'}), 500
+
+@app.after_request
+def after_request(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,OPTIONS'
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)

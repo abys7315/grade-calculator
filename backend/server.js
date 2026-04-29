@@ -1,29 +1,39 @@
 require("dotenv").config();
 const express = require("express");
+const app = express();
 const path = require("path");
 const connectDB = require("./config/db");
 const cors = require("cors");
 const otpRoutes = require("./routes/otp");
 const auth = require("./middleware/auth");
 
-const app = express();
-connectDB();
+const startServer = async () => {
+  try {
+    await connectDB();
+    const port = process.env.PORT || 5000;
+    
+    app.use(cors({
+      origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+      credentials: true
+    }));
+    app.use(express.json());
 
-app.use(cors());
-app.use(express.json());
+    // Fixed routes: OTP on /api/auth, user auth on /api/user
+    app.use("/api/auth", otpRoutes);
+    app.use("/api/user", require("./routes/authRoutes"));
 
+    app.use("/api/courses", require("./routes/courseRoutes"));
+    app.use("/api/slots", require("./routes/slotRoutes"));
+    app.use("/api/marks", require("./routes/marks"));
+    app.use("/api/admin", require("./routes/adminRoutes"));
 
-// Add this before your other routes
-app.use("/api/auth", otpRoutes);
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error.message);
+    process.exit(1);
+  }
+};
 
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/courses", require("./routes/courseRoutes"));
-app.use("/api/slots", require("./routes/slotRoutes"));
-app.use("/api/marks", require("./routes/marks"));
-app.use("/api/admin", require("./routes/adminRoutes"));
-
-// Serve static files from the React app build directory
-
-app.listen(process.env.PORT, () =>
-  console.log("Server running on", process.env.PORT)
-);
+startServer();

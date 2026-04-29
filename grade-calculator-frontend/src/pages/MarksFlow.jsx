@@ -46,7 +46,7 @@ function MarksFlow() {
 
   const fetchCurrentUser = async () => {
     try {
-      const response = await API.get("/auth/me");
+      const response = await API.get("/user/me");
       setMarks((prevMarks) => ({ ...prevMarks, studentEmail: response.data.email }));
     } catch (err) {
       console.error("Error fetching current user:", err);

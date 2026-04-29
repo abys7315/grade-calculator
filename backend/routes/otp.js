@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
-const User = require("../models/User"); // Make sure you have a User model
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const { Resend } = require("resend");
+
+const resend = new Resend('re_B3ndsCjd_L8WqqwdVAcNyYkXHStvPDCPQ');
 
 // Send OTP
 router.post("/send-otp", async (req, res) => {
@@ -11,23 +13,33 @@ router.post("/send-otp", async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: "Email is required" });
 
-    // Call Python OTP API to send email
-    const pythonApiUrl = process.env.PYTHON_OTP_API_URL || "https://abys2875.pythonanywhere.com";
-    const response = await axios.post(`${pythonApiUrl}/send-otp`, { email });
+    // Generate a random 6-digit OTP
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    if (response.data.success) {
-      // Save user as not verified in our database
-      await User.findOneAndUpdate(
-        { email },
-        { isVerified: false },
-        { upsert: true }
-      );
-
-      console.log(`OTP request sent to Python API for ${email}`);
-      res.json({ message: "OTP sent" });
+    // Store OTP in the database
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = new User({ email, otp: generatedOtp });
     } else {
-      throw new Error("Failed to send OTP via Python API");
+      user.otp = generatedOtp;
     }
+    await user.save();
+
+    // Send the OTP via Resend
+    const { data, error } = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'abhay.23bce7190@vitapstudent.ac.in', // Using your registered email for testing due to Resend sandbox restrictions
+      subject: `Login OTP for ${email} - Grade Calculator`,
+      html: `<p>Your OTP for logging in as ${email} is: <strong>${generatedOtp}</strong></p><p>Please do not share this with anyone.</p>`
+    });
+
+    if (error) {
+      console.error("Resend error:", error);
+      return res.status(500).json({ message: "Failed to send email OTP via Resend", error });
+    }
+
+    console.log(`Real OTP sent for ${email}`);
+    res.json({ message: "OTP sent successfully!" });
   } catch (err) {
     console.error("Send OTP error:", err);
     res.status(500).json({ message: "Internal Server Error", error: err.message });
@@ -40,23 +52,24 @@ router.post("/verify-otp", async (req, res) => {
     const { email, otp } = req.body;
     if (!email || !otp) return res.status(400).json({ message: "Email and OTP are required" });
 
-    // Call Python OTP API to verify OTP
-    const pythonApiUrl = process.env.PYTHON_OTP_API_URL || "https://abys2875.pythonanywhere.com";
-    const response = await axios.post(`${pythonApiUrl}/verify-otp`, { email, otp });
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found. Please request an OTP first." });
+    }
 
-    if (response.data.success) {
-      // Update user as verified in our database
-      const user = await User.findOneAndUpdate(
-        { email },
-        { isVerified: true },
-        { new: true }
-      );
+    // Verify the OTP
+    if (user.otp === otp) {
+      // Clear the OTP from DB so it can't be reused
+      user.otp = null;
+      user.isVerified = true;
+      await user.save();
 
-      // Create JWT token
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+      // Sign the JWT token
+      const token = jwt.sign({ email, role: user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: "1h" });
       res.json({ token, message: "OTP verified successfully" });
     } else {
-      return res.status(400).json({ message: "Invalid OTP" });
+      return res.status(400).json({ message: "Invalid OTP. Please try again." });
     }
   } catch (err) {
     console.error("Verify OTP error:", err);

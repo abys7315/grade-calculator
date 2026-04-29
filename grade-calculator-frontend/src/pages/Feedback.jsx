@@ -11,7 +11,8 @@ function Feedback() {
       return;
     }
     try {
-      const response = await axios.post("/auth/feedback", { feedback });
+      const response = await axios.post("/user/feedback", { feedback });
+
       setMessage(response.data.message);
       setFeedback("");
     } catch (error) {
